@@ -2,7 +2,7 @@ services:
   - type: web
     name: quov-ai-api
     runtime: node
-    buildCommand: pnpm install --no-frozen-lockfile; pnpm run build
+    buildCommand: pnpm install --no-frozen-lockfile; pnpm --filter @workspace/api-server run build
     startCommand: node artifacts/api-server/dist/index.cjs
     envVars:
       - key: NODE_ENV
