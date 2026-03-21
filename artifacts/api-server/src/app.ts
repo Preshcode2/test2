@@ -153,7 +153,7 @@ if (process.env.NODE_ENV === "production") {
   // process.cwd() is the project root on Render
   const frontendDist = path.resolve(process.cwd(), "artifacts/quov-ai/dist/public");
   app.use(express.static(frontendDist));
-  app.get("*", (_req: express.Request, res: express.Response) => {
+  app.get("*path", (_req: express.Request, res: express.Response) => {
     res.sendFile(path.join(frontendDist, "index.html"));
   });
 }
