@@ -1,6 +1,6 @@
 import { pgTable, text, timestamp, uuid, check, AnyPgColumn } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import { z } from "zod";
 import { chatsTable } from "./chats";
 import { sql } from "drizzle-orm";
 
