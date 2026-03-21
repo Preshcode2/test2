@@ -1,0 +1,17 @@
+packages:
+  "framer-motion": "Page transitions, smooth entry animations, and layout animations in chat"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility for merging tailwind classes without style conflicts"
+  "date-fns": "Formatting chat timestamps nicely"
+
+images:
+  - path: "artifacts/quov-ai/public/images/hero-bg.png"
+    description: "Abstract dark mode gradient mesh background with deep indigo, electric purple, and sleek neon cyan light leaks. Premium artificial intelligence software aesthetic, extremely high quality, minimal and smooth."
+    aspect_ratio: "16:9"
+  - path: "artifacts/quov-ai/public/images/app-logo.png"
+    description: "Minimal geometric logo mark for an AI dating coach app, glowing purple and cyan gradient on pure black transparent background."
+    aspect_ratio: "1:1"
+
+notes:
+  - Backend uses EventSource / SSE for streaming chat responses.
+  - Auth is session-based via HTTP-only cookies, verified by GET /api/auth/me.
