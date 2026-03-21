@@ -5,7 +5,7 @@ import * as schema from "./schema";
 const { Pool } = pg;
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL must be set. Did you forget to provision a Supabase database?");
+  console.error("WARNING: DATABASE_URL is not set. Database operations will fail.");
 }
 
 // Supabase requires SSL in production
@@ -14,7 +14,7 @@ const sslConfig = process.env.NODE_ENV === "production"
   : {};
 
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL ?? "",
   ...sslConfig,
 });
 
