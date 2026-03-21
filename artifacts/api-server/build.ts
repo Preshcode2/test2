@@ -40,6 +40,14 @@ const allowlist = [
   "zod-validation-error",
 ];
 
+// Resolve workspace package source roots (two levels up from artifacts/api-server)
+const workspaceRoot = path.resolve(__dirname, "../..");
+const workspaceAlias: Record<string, string> = {
+  "@workspace/db": path.resolve(workspaceRoot, "lib/db/src/index.ts"),
+  "@workspace/api-zod": path.resolve(workspaceRoot, "lib/api-zod/src/index.ts"),
+  "@workspace/api-client-react": path.resolve(workspaceRoot, "lib/api-client-react/src/index.ts"),
+};
+
 async function buildAll() {
   const distDir = path.resolve(__dirname, "dist");
   await rm(distDir, { recursive: true, force: true });
@@ -68,6 +76,7 @@ async function buildAll() {
     },
     minify: true,
     external: externals,
+    alias: workspaceAlias,
     logLevel: "info",
   });
 }
