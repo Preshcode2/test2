@@ -8,7 +8,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
 import path from "path";
-import { db, profilesTable } from "@workspace/db";
+import { db, pool, profilesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import router from "./routes";
 
@@ -34,10 +34,11 @@ const isHttps = process.env.NODE_ENV === "production";
 
 app.use(session({
   store: new PgStore({
-    conString: process.env.DATABASE_URL,
+    pool,
     tableName: "session",
     createTableIfMissing: true,
     pruneSessionInterval: 60 * 60,
+    errorLog: (err: unknown) => console.error("PgStore error:", err),
   }),
   secret: process.env.SESSION_SECRET ?? "quov-ai-dev-secret-change-in-prod",
   resave: false,

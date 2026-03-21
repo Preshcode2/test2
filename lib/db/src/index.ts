@@ -18,6 +18,10 @@ export const pool = new Pool({
   ...sslConfig,
 });
 
+pool.on("error", (err) => {
+  console.error("Postgres pool error:", err.message);
+});
+
 export const db = drizzle(pool, { schema });
 
 export * from "./schema";
