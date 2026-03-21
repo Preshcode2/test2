@@ -1,0 +1,415 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Quov AI - AI conversation assistant API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: profile
+    description: User profile operations
+  - name: chats
+    description: Chat management
+  - name: messages
+    description: Message operations
+  - name: referrals
+    description: Referral system
+  - name: webhooks
+    description: Payment webhooks
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user session
+      responses:
+        "200":
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "401":
+          description: Not authenticated
+
+  /profile:
+    get:
+      operationId: getProfile
+      tags: [profile]
+      summary: Get user profile
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "401":
+          description: Unauthorized
+    patch:
+      operationId: updateProfile
+      tags: [profile]
+      summary: Update user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequest"
+      responses:
+        "200":
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+
+  /chats:
+    get:
+      operationId: listChats
+      tags: [chats]
+      summary: List user chats
+      responses:
+        "200":
+          description: List of chats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Chat"
+    post:
+      operationId: createChat
+      tags: [chats]
+      summary: Create a new chat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChatRequest"
+      responses:
+        "201":
+          description: Created chat
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Chat"
+
+  /chats/{chatId}:
+    get:
+      operationId: getChat
+      tags: [chats]
+      summary: Get a chat with messages
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Chat with messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatWithMessages"
+        "404":
+          description: Chat not found
+    delete:
+      operationId: deleteChat
+      tags: [chats]
+      summary: Delete a chat
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+
+  /chats/{chatId}/messages:
+    post:
+      operationId: sendMessage
+      tags: [messages]
+      summary: Send a message (returns SSE stream)
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendMessageRequest"
+      responses:
+        "200":
+          description: SSE stream of AI response tokens
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+  /chats/{chatId}/ocr:
+    post:
+      operationId: processOcr
+      tags: [messages]
+      summary: Upload screenshot for OCR and AI analysis
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+              required:
+                - image
+      responses:
+        "200":
+          description: OCR result and AI analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OcrResult"
+
+  /referrals:
+    get:
+      operationId: getReferrals
+      tags: [referrals]
+      summary: Get user referral info
+      responses:
+        "200":
+          description: Referral info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReferralInfo"
+
+  /webhooks/whop:
+    post:
+      operationId: whopWebhook
+      tags: [webhooks]
+      summary: Whop payment webhook
+      responses:
+        "200":
+          description: Webhook processed
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        tier:
+          type: string
+          enum: [free, plus, pro]
+        dailyCredits:
+          type: integer
+        referralCode:
+          type: string
+        whopCustomerId:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - email
+        - tier
+        - dailyCredits
+        - referralCode
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        email:
+          type: string
+
+    Chat:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        title:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - createdAt
+
+    ChatWithMessages:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        title:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Message"
+      required:
+        - id
+        - userId
+        - createdAt
+        - messages
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        chatId:
+          type: string
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - chatId
+        - role
+        - content
+        - createdAt
+
+    CreateChatRequest:
+      type: object
+      properties:
+        title:
+          type: string
+
+    SendMessageRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        tone:
+          type: string
+          enum: [charmer, witty, closer]
+          description: Response tone/style
+      required:
+        - content
+
+    OcrResult:
+      type: object
+      properties:
+        extractedText:
+          type: string
+        analysis:
+          $ref: "#/components/schemas/AiAnalysis"
+      required:
+        - extractedText
+        - analysis
+
+    AiAnalysis:
+      type: object
+      properties:
+        flirtScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        interestLevel:
+          type: string
+        energy:
+          type: string
+        risk:
+          type: string
+        charmerResponse:
+          type: string
+        wittyResponse:
+          type: string
+        closerResponse:
+          type: string
+      required:
+        - flirtScore
+        - interestLevel
+        - energy
+        - risk
+        - charmerResponse
+        - wittyResponse
+        - closerResponse
+
+    ReferralInfo:
+      type: object
+      properties:
+        referralCode:
+          type: string
+        referralCount:
+          type: integer
+        referrals:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+            required:
+              - id
+              - createdAt
+      required:
+        - referralCode
+        - referralCount
+        - referrals
