@@ -1,7 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { build as esbuild } from "esbuild";
-import { rm, readFile } from "fs/promises";
+import { rm, readFile, copyFile, mkdir } from "fs/promises";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -79,6 +79,12 @@ async function buildAll() {
     alias: workspaceAlias,
     logLevel: "info",
   });
+
+  // connect-pg-simple reads table.sql relative to __dirname of the bundled file
+  await mkdir(distDir, { recursive: true });
+  const tableSqlSrc = path.resolve(__dirname, "node_modules/connect-pg-simple/table.sql");
+  await copyFile(tableSqlSrc, path.resolve(distDir, "table.sql"));
+  console.log("copied connect-pg-simple/table.sql → dist/table.sql");
 }
 
 buildAll().catch((err) => {
