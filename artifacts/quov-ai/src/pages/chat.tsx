@@ -4,7 +4,7 @@ import { AppLayout } from "@/components/layout/app-layout";
 import { useGetChat, useProcessOcr, useDeleteChat, type AiAnalysis, type Message } from "@workspace/api-client-react";
 import { useChatStream } from "@/hooks/use-chat-stream";
 import { Button, Card, Badge } from "@/components/ui-elements";
-import { Send, Upload, Sparkles, Bot, User, Flame, Zap, ShieldAlert, Trash2, AlertCircle, X, StopCircle, Info } from "lucide-react";
+import { Send, Upload, Sparkles, Bot, User, Flame, Zap, ShieldAlert, Trash2, AlertCircle, X, StopCircle, Info, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -361,12 +361,20 @@ export default function ChatPage() {
 
 function MessageBubble({ message, isStreaming }: { message: Message; isStreaming?: boolean }) {
   const isUser = message.role === "user";
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (!message.content) return;
+    navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={cn("flex w-full max-w-3xl mx-auto gap-3", isUser ? "flex-row-reverse" : "")}
+      className={cn("flex w-full max-w-3xl mx-auto gap-3 group", isUser ? "flex-row-reverse" : "")}
     >
       <div className={cn(
         "size-8 shrink-0 rounded-full flex items-center justify-center mt-1 shadow-md",
@@ -374,29 +382,42 @@ function MessageBubble({ message, isStreaming }: { message: Message; isStreaming
       )}>
         {isUser ? <User className="size-4 text-white" /> : <Bot className="size-4 text-white" />}
       </div>
-      <div className={cn(
-        "px-5 py-3.5 rounded-2xl max-w-[82%] leading-relaxed text-[15px]",
-        isUser
-          ? "bg-primary/20 text-white rounded-tr-sm border border-primary/20"
-          : "bg-card border border-border shadow-xl rounded-tl-sm text-white/90"
-      )}>
-        {message.content ? (
-          message.content.split("\n").map((line, i) => (
-            <span key={i}>
-              {line}
-              <br />
+      <div className="relative max-w-[82%]">
+        <div className={cn(
+          "px-5 py-3.5 rounded-2xl leading-relaxed text-[15px]",
+          isUser
+            ? "bg-primary/20 text-white rounded-tr-sm border border-primary/20"
+            : "bg-card border border-border shadow-xl rounded-tl-sm text-white/90"
+        )}>
+          {message.content ? (
+            message.content.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                <br />
+              </span>
+            ))
+          ) : isStreaming ? (
+            <span className="flex items-center gap-2 text-muted-foreground">
+              <span className="flex gap-1">
+                <span className="size-1.5 rounded-full bg-primary animate-bounce [animation-delay:0ms]" />
+                <span className="size-1.5 rounded-full bg-primary animate-bounce [animation-delay:150ms]" />
+                <span className="size-1.5 rounded-full bg-primary animate-bounce [animation-delay:300ms]" />
+              </span>
+              Thinking…
             </span>
-          ))
-        ) : isStreaming ? (
-          <span className="flex items-center gap-2 text-muted-foreground">
-            <span className="flex gap-1">
-              <span className="size-1.5 rounded-full bg-primary animate-bounce [animation-delay:0ms]" />
-              <span className="size-1.5 rounded-full bg-primary animate-bounce [animation-delay:150ms]" />
-              <span className="size-1.5 rounded-full bg-primary animate-bounce [animation-delay:300ms]" />
-            </span>
-            Thinking…
-          </span>
-        ) : null}
+          ) : null}
+        </div>
+        {message.content && !isStreaming && (
+          <button
+            onClick={handleCopy}
+            className={cn(
+              "absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border",
+              isUser ? "right-0 bg-card border-border text-muted-foreground hover:text-white" : "left-0 bg-card border-border text-muted-foreground hover:text-white"
+            )}
+          >
+            {copied ? <><Check className="size-3 text-green-400" /> Copied</> : <><Copy className="size-3" /> Copy</>}
+          </button>
+        )}
       </div>
     </motion.div>
   );

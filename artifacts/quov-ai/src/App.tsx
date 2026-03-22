@@ -2,6 +2,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CookieConsent } from "@/components/cookie-consent";
 
 // Pages
 import LandingPage from "@/pages/landing";
@@ -43,6 +44,7 @@ function App() {
           <Router />
         </WouterRouter>
         <Toaster />
+        <CookieConsent />
       </TooltipProvider>
     </QueryClientProvider>
   );

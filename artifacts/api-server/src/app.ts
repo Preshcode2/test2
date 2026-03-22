@@ -41,8 +41,9 @@ app.use(session({
     errorLog: (err: unknown) => console.error("PgStore error:", err),
   }),
   secret: process.env.SESSION_SECRET ?? "quov-ai-dev-secret-change-in-prod",
-  resave: false,
+  resave: true,
   saveUninitialized: false,
+  rolling: true,
   cookie: {
     httpOnly: true,
     secure: isHttps,

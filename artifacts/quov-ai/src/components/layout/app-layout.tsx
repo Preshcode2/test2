@@ -1,6 +1,6 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useMemo } from "react";
 import { Link, useLocation } from "wouter";
-import { MessageSquare, LogOut, Plus, Menu, X, Coins, Sparkles, AlertCircle } from "lucide-react";
+import { MessageSquare, LogOut, Plus, Menu, X, Coins, Sparkles, AlertCircle, Search } from "lucide-react";
 import { useGetMe, useListChats, useCreateChat } from "@workspace/api-client-react";
 import { useLogout } from "@/hooks/use-auth";
 import { Button } from "@/components/ui-elements";
@@ -11,10 +11,17 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarError, setSidebarError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
   const { data: user, isLoading: isUserLoading } = useGetMe();
   const { data: chats, isLoading: isChatsLoading } = useListChats();
   const createChat = useCreateChat();
   const logout = useLogout();
+
+  const filteredChats = useMemo(() => {
+    if (!chats) return [];
+    if (!search.trim()) return chats;
+    return chats.filter(c => (c.title || "New Conversation").toLowerCase().includes(search.toLowerCase()));
+  }, [chats, search]);
 
   if (isUserLoading) {
     return <div className="min-h-screen flex items-center justify-center bg-background"><div className="size-8 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>;
@@ -63,16 +70,30 @@ export function AppLayout({ children }: { children: ReactNode }) {
             <span>{sidebarError}</span>
           </div>
         )}
+
+        {/* Search */}
+        <div className="mt-4 relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search chats..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full bg-secondary/50 border border-border/50 rounded-xl pl-8 pr-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+          />
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-1">
-        <div className="px-2 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Recent Chats</div>
+        <div className="px-2 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          {search ? `Results (${filteredChats.length})` : "Recent Chats"}
+        </div>
         {isChatsLoading ? (
           <div className="px-4 py-2 text-sm text-muted-foreground animate-pulse">Loading...</div>
-        ) : chats?.length === 0 ? (
-          <div className="px-4 py-2 text-sm text-muted-foreground">No chats yet</div>
+        ) : filteredChats.length === 0 ? (
+          <div className="px-4 py-2 text-sm text-muted-foreground">{search ? "No chats match your search" : "No chats yet"}</div>
         ) : (
-          chats?.map((chat) => {
+          filteredChats.map((chat) => {
             const isActive = location === `/chat/${chat.id}`;
             return (
               <Link key={chat.id} href={`/chat/${chat.id}`} onClick={() => setMobileOpen(false)}>
