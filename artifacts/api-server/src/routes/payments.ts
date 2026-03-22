@@ -41,7 +41,7 @@ router.post("/payments/crypto/create", async (req: Request, res: Response) => {
   }
 
   try {
-    const response = await fetch(`${NOWPAYMENTS_API}/payment`, {
+    const response = await fetch(`${NOWPAYMENTS_API}/invoice`, {
       method: "POST",
       headers: {
         "x-api-key": apiKey,
@@ -67,8 +67,8 @@ router.post("/payments/crypto/create", async (req: Request, res: Response) => {
 
     const payment = await response.json() as any;
     res.json({
-      paymentId: payment.payment_id,
-      paymentUrl: payment.invoice_url ?? `https://nowpayments.io/payment/?iid=${payment.payment_id}`,
+      paymentId: payment.id,
+      paymentUrl: payment.invoice_url,
     });
   } catch (err) {
     console.error("crypto payment error:", err);
