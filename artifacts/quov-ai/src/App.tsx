@@ -11,6 +11,7 @@ import Signup from "@/pages/signup";
 import Dashboard from "@/pages/dashboard";
 import ChatPage from "@/pages/chat";
 import UpgradePage from "@/pages/upgrade";
+import SettingsPage from "@/pages/settings";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/chat/:chatId" component={ChatPage} />
       <Route path="/upgrade" component={UpgradePage} />
+      <Route path="/settings" component={SettingsPage} />
       <Route component={NotFound} />
     </Switch>
   );

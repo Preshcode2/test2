@@ -1,6 +1,6 @@
 import { ReactNode, useState, useMemo } from "react";
 import { Link, useLocation } from "wouter";
-import { MessageSquare, LogOut, Plus, Menu, X, Coins, Sparkles, AlertCircle, Search } from "lucide-react";
+import { MessageSquare, LogOut, Plus, Menu, X, Coins, Sparkles, AlertCircle, Search, Settings } from "lucide-react";
 import { useGetMe, useListChats, useCreateChat } from "@workspace/api-client-react";
 import { useLogout } from "@/hooks/use-auth";
 import { Button } from "@/components/ui-elements";
@@ -132,9 +132,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
              </div>
              <div className="text-sm truncate max-w-[120px] font-medium text-white/80">{user.email}</div>
           </div>
-          <button onClick={() => logout.mutate()} className="p-2 text-muted-foreground hover:text-destructive transition-colors" title="Log out">
-            <LogOut className="size-4" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button onClick={() => setLocation("/settings")} className="p-2 text-muted-foreground hover:text-white transition-colors" title="Settings">
+              <Settings className="size-4" />
+            </button>
+            <button onClick={() => logout.mutate()} className="p-2 text-muted-foreground hover:text-destructive transition-colors" title="Log out">
+              <LogOut className="size-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
