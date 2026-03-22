@@ -6,6 +6,7 @@ import chatsRouter from "./chats";
 import ocrRouter from "./ocr";
 import referralsRouter from "./referrals";
 import webhooksRouter from "./webhooks";
+import paymentsRouter from "./payments";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(chatsRouter);
 router.use(ocrRouter);
 router.use(referralsRouter);
 router.use(webhooksRouter);
+router.use(paymentsRouter);
 
 export default router;

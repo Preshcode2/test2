@@ -42,13 +42,34 @@ export default function UpgradePage() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [showMethods, setShowMethods] = useState(false);
   const [comingSoon, setComingSoon] = useState<string | null>(null);
+  const [cryptoLoading, setCryptoLoading] = useState(false);
+  const [cryptoError, setCryptoError] = useState<string | null>(null);
 
   const handleSelectPlan = (planId: string) => {
     setSelectedPlan(planId);
     setShowMethods(true);
   };
 
-  const handleMethodClick = (methodId: string) => {
+  const handleMethodClick = async (methodId: string) => {
+    if (methodId === "crypto") {
+      setCryptoLoading(true);
+      setCryptoError(null);
+      try {
+        const res = await fetch("/api/payments/crypto/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ plan: selectedPlan }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to create payment");
+        window.location.href = data.paymentUrl;
+      } catch (err: any) {
+        setCryptoError(err.message);
+        setCryptoLoading(false);
+      }
+      return;
+    }
     setComingSoon(methodId);
   };
 
@@ -165,7 +186,8 @@ export default function UpgradePage() {
                       <button
                         key={method.id}
                         onClick={() => handleMethodClick(method.id)}
-                        className="w-full flex items-center gap-4 p-4 rounded-2xl border border-border/50 bg-card/40 hover:bg-card hover:border-primary/40 transition-all text-left group"
+                        disabled={cryptoLoading && method.id === "crypto"}
+                        className="w-full flex items-center gap-4 p-4 rounded-2xl border border-border/50 bg-card/40 hover:bg-card hover:border-primary/40 transition-all text-left group disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <div className="size-11 rounded-xl bg-secondary/50 flex items-center justify-center shrink-0">
                           <method.icon className={`size-5 ${method.color}`} />
@@ -174,10 +196,17 @@ export default function UpgradePage() {
                           <p className="text-sm font-semibold text-white">{method.label}</p>
                           <p className="text-xs text-muted-foreground">{method.desc}</p>
                         </div>
-                        <ChevronRight className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                        {cryptoLoading && method.id === "crypto"
+                          ? <div className="size-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                          : <ChevronRight className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                        }
                       </button>
                     ))}
                   </div>
+
+                  {cryptoError && (
+                    <p className="text-center text-xs text-destructive mt-3">{cryptoError}</p>
+                  )}
 
                   <p className="text-center text-xs text-muted-foreground mt-6 flex items-center justify-center gap-1.5">
                     <Lock className="size-3" /> All payments are encrypted and secure
