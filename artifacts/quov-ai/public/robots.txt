@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /chat/
+Disallow: /settings
+Disallow: /stats
+Disallow: /upgrade
+
+Sitemap: https://quovai.onrender.com/sitemap.xml
