@@ -137,7 +137,7 @@ export default function ChatPage() {
 
   return (
     <AppLayout>
-      <div className="flex flex-col h-full bg-background relative overflow-hidden">
+      <div className="flex flex-col h-full bg-background overflow-hidden">
 
         {/* Header */}
         <header className="px-6 py-4 border-b border-border/50 bg-card/30 backdrop-blur-md flex items-center justify-between z-10 shrink-0">
@@ -200,7 +200,7 @@ export default function ChatPage() {
         </AnimatePresence>
 
         {/* Message Thread */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 pb-40 scroll-smooth">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 pb-6 scroll-smooth">
 
           {localMessages.length === 0 && !isStreaming && !localAnalysis && (
             <div className="flex flex-col items-center justify-center text-center pt-16 pb-8 space-y-4">
@@ -267,8 +267,8 @@ export default function ChatPage() {
         </div>
 
         {/* Input Area */}
-        <div className="absolute bottom-0 left-0 w-full z-20 bg-gradient-to-t from-background via-background/95 to-transparent pt-6">
-          <div className="max-w-3xl mx-auto px-4 pb-4">
+        <div className="shrink-0 border-t border-border/50 bg-background/95 backdrop-blur-md">
+          <div className="max-w-3xl mx-auto px-4 py-3">
 
             {/* Tone Selector */}
             <div className="flex items-center gap-2 mb-3 px-1">
