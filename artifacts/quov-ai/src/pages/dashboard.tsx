@@ -74,7 +74,7 @@ export default function Dashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="text-3xl lg:text-4xl font-display font-bold text-white mb-1">
-                  Hey there 👋
+                  Hey {user?.displayName ? user.displayName.split(" ")[0] : "there"} 👋
                 </h1>
                 <p className="text-muted-foreground">
                   {totalChats === 0

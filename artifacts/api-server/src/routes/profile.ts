@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { db, profilesTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { db, profilesTable, chatsTable, messagesTable } from "@workspace/db";
+import { eq, count, sql } from "drizzle-orm";
 import type { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
@@ -119,6 +119,53 @@ router.delete("/profile", async (req: Request, res: Response) => {
     await db.delete(profilesTable).where(eq(profilesTable.id, userId));
     req.session.destroy(() => {});
     res.json({ success: true });
+  } catch (_err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Stats
+router.get("/profile/stats", async (req: Request, res: Response) => {
+  const userId = requireAuth(req, res);
+  if (!userId) return;
+  try {
+    const [profile] = await db.select().from(profilesTable).where(eq(profilesTable.id, userId)).limit(1);
+    if (!profile) { res.status(404).json({ error: "Not found" }); return; }
+
+    const [chatCount] = await db.select({ count: count() }).from(chatsTable).where(eq(chatsTable.userId, userId));
+    const [msgCount] = await db.select({ count: count() }).from(messagesTable)
+      .innerJoin(chatsTable, eq(messagesTable.chatId, chatsTable.id))
+      .where(eq(chatsTable.userId, userId));
+
+    // Streak: count consecutive days with at least one chat
+    const recentChats = await db.select({ createdAt: chatsTable.createdAt })
+      .from(chatsTable).where(eq(chatsTable.userId, userId))
+      .orderBy(sql`${chatsTable.createdAt} desc`);
+
+    let streak = 0;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const seen = new Set<string>();
+    for (const c of recentChats) {
+      const d = new Date(c.createdAt); d.setHours(0,0,0,0);
+      seen.add(d.toISOString());
+    }
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(today); d.setDate(d.getDate() - i);
+      if (seen.has(d.toISOString())) streak++;
+      else if (i > 0) break;
+    }
+
+    // Member since days
+    const memberDays = Math.floor((Date.now() - new Date(profile.createdAt).getTime()) / 86400000);
+
+    res.json({
+      totalChats: chatCount.count,
+      totalMessages: msgCount.count,
+      streak,
+      memberDays,
+      tier: profile.tier,
+      dailyCredits: profile.dailyCredits,
+    });
   } catch (_err) {
     res.status(500).json({ error: "Internal server error" });
   }

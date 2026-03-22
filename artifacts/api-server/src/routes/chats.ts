@@ -85,6 +85,25 @@ router.delete("/chats/:chatId", async (req: Request, res: Response) => {
   }
 });
 
+// Rename chat
+router.patch("/chats/:chatId", async (req: Request, res: Response) => {
+  const userId = requireAuth(req, res);
+  if (!userId) return;
+  try {
+    const { title } = req.body;
+    if (!title?.trim()) { res.status(400).json({ error: "Title required" }); return; }
+    const [chat] = await db.update(chatsTable)
+      .set({ title: title.trim().slice(0, 80) })
+      .where(and(eq(chatsTable.id, req.params.chatId), eq(chatsTable.userId, userId)))
+      .returning();
+    if (!chat) { res.status(404).json({ error: "Chat not found" }); return; }
+    res.json(chat);
+  } catch (err) {
+    console.error("rename chat:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.post("/chats/:chatId/messages", async (req: Request, res: Response) => {
   const userId = requireAuth(req, res);
   if (!userId) return;

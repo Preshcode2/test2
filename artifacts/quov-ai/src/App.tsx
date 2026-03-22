@@ -12,7 +12,9 @@ import Dashboard from "@/pages/dashboard";
 import ChatPage from "@/pages/chat";
 import UpgradePage from "@/pages/upgrade";
 import SettingsPage from "@/pages/settings";
+import StatsPage from "@/pages/stats";
 import NotFound from "@/pages/not-found";
+import { Onboarding } from "@/components/onboarding";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +35,7 @@ function Router() {
       <Route path="/chat/:chatId" component={ChatPage} />
       <Route path="/upgrade" component={UpgradePage} />
       <Route path="/settings" component={SettingsPage} />
+      <Route path="/stats" component={StatsPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -47,6 +50,7 @@ function App() {
         </WouterRouter>
         <Toaster />
         <CookieConsent />
+        <Onboarding />
       </TooltipProvider>
     </QueryClientProvider>
   );
