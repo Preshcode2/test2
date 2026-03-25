@@ -100,7 +100,7 @@ export default function UpgradePage() {
               >
                 <div className="text-center mb-10">
                   <Badge className="mb-4 px-3 py-1 text-xs rounded-full bg-primary/10 border border-primary/20 text-primary inline-flex items-center gap-1.5">
-                    <Sparkles className="size-3" /> Upgrade Quov AI
+                    <Sparkles className="size-3" /> Upgrade VelxoAI
                   </Badge>
                   <h1 className="text-3xl font-display font-bold text-white mb-3">Unlock Your Full Potential</h1>
                   <p className="text-muted-foreground max-w-md mx-auto">
@@ -172,7 +172,7 @@ export default function UpgradePage() {
                   {/* Order Summary */}
                   <Card className="p-5 bg-card/40 border-white/5 mb-6">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm text-muted-foreground">Quov AI {plan?.name}</span>
+                      <span className="text-sm text-muted-foreground">VelxoAI {plan?.name}</span>
                       <span className="text-white font-semibold">{plan?.price}/mo</span>
                     </div>
                     <div className="flex items-center justify-between text-xs text-muted-foreground border-t border-border/50 pt-3">

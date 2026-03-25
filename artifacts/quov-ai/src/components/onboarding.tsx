@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Upload, MessageSquare, Sparkles, ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui-elements";
 
-const STORAGE_KEY = "quov_onboarded";
+const STORAGE_KEY = "velxo_onboarded";
 
 const STEPS = [
   {

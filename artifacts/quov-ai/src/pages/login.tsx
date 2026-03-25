@@ -55,7 +55,7 @@ export default function Login() {
             className="size-16 object-contain mx-auto mb-6"
           />
           <h1 className="text-3xl font-display font-bold text-white mb-2">Welcome back</h1>
-          <p className="text-muted-foreground">Sign in to your Quov AI account</p>
+          <p className="text-muted-foreground">Sign in to your VelxoAI account</p>
         </div>
 
         <Card className="p-8 backdrop-blur-2xl bg-card/60">

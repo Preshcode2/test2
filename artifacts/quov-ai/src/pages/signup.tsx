@@ -55,7 +55,7 @@ export default function Signup() {
             className="size-16 object-contain mx-auto mb-6"
           />
           <h1 className="text-3xl font-display font-bold text-white mb-2">Create an account</h1>
-          <p className="text-muted-foreground">Start your journey with Quov AI</p>
+          <p className="text-muted-foreground">Start your journey with VelxoAI</p>
         </div>
 
         <Card className="p-8 backdrop-blur-2xl bg-card/60">

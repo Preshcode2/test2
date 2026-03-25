@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: quov-ai-api
+    name: velxo-ai-api
     runtime: node
     buildCommand: pnpm install --no-frozen-lockfile; pnpm --filter @workspace/api-server run build
     startCommand: node artifacts/api-server/dist/index.cjs

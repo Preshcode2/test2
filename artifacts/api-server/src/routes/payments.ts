@@ -51,7 +51,7 @@ router.post("/payments/crypto/create", async (req: Request, res: Response) => {
         price_amount: PLAN_PRICES[plan],
         price_currency: "usd",
         order_id: `${userId}_${plan}_${Date.now()}`,
-        order_description: `Quov AI ${plan} plan`,
+        order_description: `VelxoAI ${plan} plan`,
         ipn_callback_url: `${process.env.APP_URL}/api/payments/crypto/webhook`,
         success_url: `${process.env.APP_URL}/dashboard?upgraded=1`,
         cancel_url: `${process.env.APP_URL}/upgrade`,

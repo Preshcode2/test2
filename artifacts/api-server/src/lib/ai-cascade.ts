@@ -44,8 +44,8 @@ export async function streamWithCascade(
           headers: {
             Authorization: `Bearer ${apiKey}`,
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://quov.ai",
-            "X-Title": "Quov AI",
+            "HTTP-Referer": "https://velxoai.xyz",
+            "X-Title": "VelxoAI",
           },
           body: JSON.stringify({ model, messages, stream: true }),
         },
@@ -110,8 +110,8 @@ export async function generateWithCascade(messages: ChatMessage[]): Promise<stri
           headers: {
             Authorization: `Bearer ${apiKey}`,
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://quov.ai",
-            "X-Title": "Quov AI",
+            "HTTP-Referer": "https://velxoai.xyz",
+            "X-Title": "VelxoAI",
           },
           body: JSON.stringify({ model, messages, stream: false }),
         },

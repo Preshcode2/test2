@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X, Shield, BarChart2, Settings } from "lucide-react";
 import { Button } from "@/components/ui-elements";
 
-const STORAGE_KEY = "quov_cookie_consent";
+const STORAGE_KEY = "velxo_cookie_consent";
 
 export type CookiePrefs = {
   essential: true;

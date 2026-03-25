@@ -15,7 +15,7 @@ const TIPS = [
   { icon: "🎯", title: "Suggest, don't ask", body: "Instead of 'want to hang out?', say 'we should grab coffee Thursday'. Confidence converts." },
   { icon: "⏱️", title: "Timing matters", body: "Don't reply instantly every time — a little delay signals you have a life. But never wait more than 24h." },
   { icon: "🔥", title: "Use her name sparingly", body: "Drop her name once in a message — it creates instant intimacy without being pushy." },
-  { icon: "📸", title: "Upload screenshots", body: "Get the most out of Quov AI by uploading real screenshots — context is everything for accurate analysis." },
+  { icon: "📸", title: "Upload screenshots", body: "Get the most out of VelxoAI by uploading real screenshots — context is everything for accurate analysis." },
 ];
 
 const TONE_GUIDE = [
@@ -55,7 +55,7 @@ export default function Dashboard() {
 
   const copyReferral = () => {
     if (referrals?.referralCode) {
-      navigator.clipboard.writeText(`https://quov.ai/signup?ref=${referrals.referralCode}`);
+      navigator.clipboard.writeText(`https://velxoai.xyz/signup?ref=${referrals.referralCode}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -159,7 +159,7 @@ export default function Dashboard() {
                   <div className="min-w-0">
                     <div className="text-[11px] text-muted-foreground mb-1">Your link</div>
                     <div className="font-mono text-white text-xs truncate max-w-[180px] sm:max-w-[220px]">
-                      quov.ai/signup?ref={referrals?.referralCode || "…"}
+                      velxoai.xyz/signup?ref={referrals?.referralCode || "…"}
                     </div>
                   </div>
                   <Button variant="secondary" size="sm" onClick={copyReferral} className="shrink-0 gap-1.5 ml-3">
@@ -267,7 +267,7 @@ export default function Dashboard() {
                     <TrendingUp className="size-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white">Upgrade to Quov Pro</h3>
+                    <h3 className="font-bold text-white">Upgrade to Velxo Pro</h3>
                     <p className="text-sm text-muted-foreground">Unlimited sessions, priority AI, and advanced analytics</p>
                   </div>
                 </div>
@@ -309,7 +309,7 @@ export default function Dashboard() {
           {/* Footer credit */}
           <div className="text-center pt-4">
             <p className="text-xs text-muted-foreground/40">
-              Quov AI is a product of <span className="text-muted-foreground/60">Striller Group</span> — built by Striller Code (ADE)
+              VelxoAI is a product of <span className="text-muted-foreground/60">Striller Group</span> — built by Striller Code (ADE)
             </p>
           </div>
         </div>

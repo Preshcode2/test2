@@ -40,7 +40,7 @@ app.use(session({
     pruneSessionInterval: 60 * 60,
     errorLog: (err: unknown) => console.error("PgStore error:", err),
   }),
-  secret: process.env.SESSION_SECRET ?? "quov-ai-dev-secret-change-in-prod",
+  secret: process.env.SESSION_SECRET ?? "velxo-ai-dev-secret-change-in-prod",
   resave: true,
   saveUninitialized: false,
   rolling: true,

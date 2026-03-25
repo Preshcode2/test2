@@ -49,18 +49,18 @@ const features = [
   { icon: TrendingUp, title: "Interest Level Analysis", desc: "High, Medium, Low — we break down exactly how interested they are based on their word choice, response time cues, and energy.", badge: "Insightful" },
   { icon: Clock, title: "5-Second Turnaround", desc: "No waiting. From screenshot to three perfect responses in under 5 seconds. Never leave a good conversation hanging too long.", badge: "Fast" },
   { icon: Shield, title: "Private by Default", desc: "Your conversations never leave your session. We don't store, train on, or share your chat data. Zero retention policy.", badge: "Secure" },
-  { icon: Users, title: "Referral Rewards", desc: "Invite friends and earn bonus credits. Share your unique link and get rewarded every time someone joins Quov AI.", badge: "Free Credits" },
+  { icon: Users, title: "Referral Rewards", desc: "Invite friends and earn bonus credits. Share your unique link and get rewarded every time someone joins VelxoAI.", badge: "Free Credits" },
 ];
 
 const faqs = [
-  { q: "What apps does Quov AI work with?", a: "Any app where you can take a screenshot — Tinder, Bumble, Hinge, OkCupid, Instagram DMs, WhatsApp, iMessage, Facebook Messenger, and more. If you can screenshot it, we can analyze it." },
+  { q: "What apps does VelxoAI work with?", a: "Any app where you can take a screenshot — Tinder, Bumble, Hinge, OkCupid, Instagram DMs, WhatsApp, iMessage, Facebook Messenger, and more. If you can screenshot it, we can analyze it." },
   { q: "How accurate is the Flirt Score?", a: "The Flirt Score uses a combination of linguistic analysis, sentiment detection, and pattern recognition across thousands of conversation signals. It's a guide, not a guarantee — but users report it matching their gut feeling about 85–90% of the time." },
   { q: "Is my data private?", a: "Yes. We use a zero-retention policy. Your screenshots are processed in memory and discarded immediately. We don't train our AI on your conversations, and we don't sell your data. Period." },
   { q: "What's the difference between Charmer, Witty, and Closer?", a: "Charmer focuses on warmth and smooth confidence — great for openers and keeping things light. Witty uses humor and clever wordplay to create spark and personality. Closer is bold and direct — use it when you're ready to move things forward and ask for the date." },
   { q: "How many credits does the free plan include?", a: "The Free plan includes 3 credits per day, resetting every 24 hours. Each message you send uses 1 credit. Upgrade to Plus for 20 credits/day or Pro for unlimited." },
   { q: "Can I cancel my subscription anytime?", a: "Absolutely. No lock-in, no cancellation fees. Cancel from your account at any time and your plan stays active until the end of your billing period." },
-  { q: "Who built Quov AI?", a: "Quov AI is a product of Striller Group, founded by Striller Code (ADE). We build AI-powered tools that give everyday people an edge in the things that matter most." },
-  { q: "What AI technology powers Quov AI?", a: "We use a proprietary AI cascade system — a chain of 5 top-tier language models from providers including Google, Meta, Mistral, OpenAI, and Anthropic. If one model is unavailable, the next takes over automatically. This means near-zero downtime and consistently great responses." },
+  { q: "Who built VelxoAI?", a: "VelxoAI is a product of Striller Group, founded by Striller Code (ADE). We build AI-powered tools that give everyday people an edge in the things that matter most." },
+  { q: "What AI technology powers VelxoAI?", a: "We use a proprietary AI cascade system — a chain of 5 top-tier language models from providers including Google, Meta, Mistral, OpenAI, and Anthropic. If one model is unavailable, the next takes over automatically. This means near-zero downtime and consistently great responses." },
 ];
 
 export default function LandingPage() {
@@ -74,7 +74,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={`${import.meta.env.BASE_URL}images/app-logo.png`} alt="Logo" className="size-9 object-contain" />
-            <span className="font-bold text-xl tracking-tight text-white">Quov AI</span>
+            <span className="font-bold text-xl tracking-tight text-white">VelxoAI</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
@@ -293,7 +293,7 @@ export default function LandingPage() {
           <FadeIn className="text-center mb-20">
             <Badge className="mb-4 px-3 py-1 text-xs rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Social Proof</Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Real people. Real results.</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">50,000+ users have leveled up their dating game with Quov AI.</p>
+            <p className="text-muted-foreground max-w-xl mx-auto">50,000+ users have leveled up their dating game with VelxoAI.</p>
           </FadeIn>
 
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
@@ -461,8 +461,8 @@ export default function LandingPage() {
       <footer className="border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-muted-foreground">
           <div className="flex items-center gap-3">
-            <img src={`${import.meta.env.BASE_URL}images/app-logo.png`} alt="Quov AI" className="size-7 object-contain" />
-            <span className="font-bold text-white">Quov AI</span>
+            <img src={`${import.meta.env.BASE_URL}images/app-logo.png`} alt="VelxoAI" className="size-7 object-contain" />
+            <span className="font-bold text-white">VelxoAI</span>
             <span className="hidden sm:block">— The #1 AI Dating Assistant</span>
           </div>
           <div className="flex items-center gap-6">
@@ -471,7 +471,7 @@ export default function LandingPage() {
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </div>
           <div className="text-center md:text-right">
-            <div>© {new Date().getFullYear()} Quov AI by <span className="text-white/70">Striller Group</span>. All rights reserved.</div>
+            <div>© {new Date().getFullYear()} VelxoAI by <span className="text-white/70">Striller Group</span>. All rights reserved.</div>
             <div className="text-xs mt-0.5 text-muted-foreground/50">Founded by Striller Code (ADE)</div>
           </div>
         </div>

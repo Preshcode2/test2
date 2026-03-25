@@ -350,7 +350,7 @@ export default function ChatPage() {
             </form>
 
             <p className="text-center text-[11px] text-muted-foreground/50 mt-2">
-              Quov AI — powered by Striller Group AI cascade
+              VelxoAI — powered by Striller Group AI cascade
             </p>
           </div>
         </div>

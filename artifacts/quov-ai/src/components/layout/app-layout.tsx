@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, Link } from "wouter";
 import { useListChats, useCreateChat, useDeleteChat, useGetMe } from "@workspace/api-client-react";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
@@ -111,8 +111,8 @@ export function AppLayout({ children }: AppLayoutProps) {
           {!collapsed && (
             <Link href="/dashboard">
               <div className="flex items-center gap-2 cursor-pointer">
-                <img src="/images/app-logo.png" alt="Quov AI" className="size-7 rounded-lg object-cover" />
-                <span className="font-display font-bold text-white text-sm">Quov AI</span>
+                <img src="/images/app-logo.png" alt="VelxoAI" className="size-7 rounded-lg object-cover" />
+                <span className="font-display font-bold text-white text-sm">VelxoAI</span>
               </div>
             </Link>
           )}
