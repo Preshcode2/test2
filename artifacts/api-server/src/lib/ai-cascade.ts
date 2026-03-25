@@ -1,4 +1,5 @@
 const MODELS = [
+  "arcee-ai/trinity-large-preview:free",
   "google/gemini-2.0-flash",
   "meta-llama/llama-3.3-70b-instruct",
   "mistralai/mistral-7b-instruct",
