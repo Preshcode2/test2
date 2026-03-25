@@ -1,7 +1,8 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button, Card, Badge } from "@/components/ui-elements";
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useGetMe } from "@workspace/api-client-react";
 import {
   MessageSquareHeart, Zap, Upload, Check, ChevronRight,
   Star, Brain, Shield, TrendingUp, Users, Clock, BarChart3,
@@ -65,6 +66,16 @@ const faqs = [
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [, setLocation] = useLocation();
+  const { data: user, isLoading } = useGetMe();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      setLocation("/dashboard");
+    }
+  }, [user, isLoading, setLocation]);
+
+  if (isLoading) return null;
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
