@@ -24,6 +24,7 @@ export function setCookieConsent(prefs: CookiePrefs) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
 }
 
+
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
@@ -33,8 +34,8 @@ export function CookieConsent() {
   useEffect(() => {
     const existing = getCookieConsent();
     if (!existing) {
-      const t = setTimeout(() => setVisible(true), 800);
-      return () => clearTimeout(t);
+      // Auto-accept all on first visit — no banner needed
+      setCookieConsent({ essential: true, analytics: true, preferences: true });
     }
     return undefined;
   }, []);
